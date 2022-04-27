@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 from ctypes import CDLL, CFUNCTYPE, POINTER, c_int, c_uint, pointer, c_ubyte, c_uint8, c_uint32, c_uint16
-from smbus2 import SMBus, i2c_msg
+from i2c_mp_usb import I2C_MP_USB as SMBus
 import os
 import site
 import glob
@@ -121,10 +121,7 @@ class VL53L1X:
         def _i2c_read(address, reg, data_p, length):
             ret_val = 0
 
-            msg_w = i2c_msg.write(address, [reg >> 8, reg & 0xff])
-            msg_r = i2c_msg.read(address, length)
-
-            self._i2c.i2c_rdwr(msg_w, msg_r)
+            self._i2c.usbhandle.controlWrite(libusb1.LIBUSB_TYPE_CLASS, CMD_I2C_IO + CMD_I2C_IO_BEGIN, 0, address, [reg >> 8, reg & 0xff]) data_p = self._i2c.usbhandle.controlRead(libusb1.LIBUSB_TYPE_CLASS, CMD_I2C_IO + CMD_I2C_IO_END, I2C_M_RD, address, length)
 
             if ret_val == 0:
                 for index in range(length):
@@ -140,9 +137,7 @@ class VL53L1X:
             for index in range(length):
                 data.append(data_p[index])
 
-            msg_w = i2c_msg.write(address, [reg >> 8, reg & 0xff] + data)
-
-            self._i2c.i2c_rdwr(msg_w)
+            self._i2c.write_i2c_block_raw(address, [reg >> 8, reg & 0xff] + data)
 
             return ret_val
 
