@@ -7,8 +7,8 @@ https://shop.pimoroni.com/products/vl53l1x-breakout
 # Installing
 
 ```
-sudo pip install smbus2
-sudo pip install vl53l1x
+pip install git+https://github.com/EmbedME/pyI2C_MP_USB
+sudo pip install git+https://github.com/Michdo93/vl53l1x-python-pyI2C_MP_USB
 ```
 
 # Usage
@@ -17,10 +17,6 @@ sudo pip install vl53l1x
 import VL53L1X
 
 # Open and start the VL53L1X sensor.
-# If you've previously used change-address.py then you
-# should use the new i2c address here.
-# If you're using a software i2c bus (ie: HyperPixel4) then
-# you should `ls /dev/i2c-*` and use the relevant bus number.
 tof = VL53L1X.VL53L1X(i2c_bus=1, i2c_address=0x29)
 tof.open()
 
