@@ -1,8 +1,10 @@
 # vl53l1x-python
 
-Python library for the VL53L1X Laser Ranger.
+Python library for the VL53L1X Laser Ranger with the I2C-MP-USB, an USB to I²C interface.
 
 https://shop.pimoroni.com/products/vl53l1x-breakout
+https://www.fischl.de/i2c-mp-usb/
+https://github.com/EmbedME/pyI2C_MP_USB
 
 # Installing
 
