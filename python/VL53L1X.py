@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 from ctypes import CDLL, CFUNCTYPE, POINTER, c_int, c_uint, pointer, c_ubyte, c_uint8, c_uint32, c_uint16
-from i2c_mp_usb import I2C_MP_USB as SMBus
+from smbus2 import SMBus, i2c_msg
 import os
 import site
 import glob
@@ -121,7 +121,8 @@ class VL53L1X:
         def _i2c_read(address, reg, data_p, length):
             ret_val = 0
 
-            self._i2c.usbhandle.controlWrite(libusb1.LIBUSB_TYPE_CLASS, CMD_I2C_IO + CMD_I2C_IO_BEGIN, 0, address, [reg >> 8, reg & 0xff]) data_p = self._i2c.usbhandle.controlRead(libusb1.LIBUSB_TYPE_CLASS, CMD_I2C_IO + CMD_I2C_IO_END, I2C_M_RD, address, length)
+            self._i2c.usbhandle.controlWrite(libusb1.LIBUSB_TYPE_CLASS, CMD_I2C_IO + CMD_I2C_IO_BEGIN, 0, address, [reg >> 8, reg & 0xff])
+            data_p = self._i2c.usbhandle.controlRead(libusb1.LIBUSB_TYPE_CLASS, CMD_I2C_IO + CMD_I2C_IO_END, I2C_M_RD, address, length)
 
             if ret_val == 0:
                 for index in range(length):
