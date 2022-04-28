@@ -31,6 +31,4 @@ setup(name='VL53L1X',
       long_description_content_type='text/markdown',
       ext_modules=[extension],
       package_dir={'': 'python'},
-      py_modules=['VL53L1X'],
-      requires=['smbus2'],
-      install_requires=['smbus2'])
+      py_modules=['VL53L1X']
