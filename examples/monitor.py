@@ -17,13 +17,13 @@ class ToFVL53L1X(object):
         # 1 = Short Range, 2 = Medium Range, 3 = Long Range 
         self.range = 1
 
-        self.tof = VL53L1X.VL53L1X(i2c_bus=1, i2c_address = self.address)
+        self.tof = VL53L1X.VL53L1X(i2c_bus=0, i2c_address = self.address)
 
-    def start_sensor(self, pin):
+    def start_sensor(self):
         self.tof.open()
         self.tof.start_ranging(self.range)
 
-    def stop_sensor(self, pin):
+    def stop_sensor(self):
         self.tof.stop_ranging()
         
     def set_range(self, range):
