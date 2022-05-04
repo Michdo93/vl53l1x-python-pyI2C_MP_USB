@@ -68,6 +68,6 @@ if __name__ == "__main__":
         distance = float(tof.get_distance())
         
         if distance > 30:
-            os.system(f'/usr/bin/xrandr --output {output} --brightness {0.0}) # 0%
+            os.system(f'/usr/bin/xrandr --output {output} --brightness {0.0}') # 0%
         else:
-            os.system(f'/usr/bin/xrandr --output {output} --brightness {brightness}) # 100%
+            os.system(f'/usr/bin/xrandr --output {output} --brightness {brightness}') # 100%
