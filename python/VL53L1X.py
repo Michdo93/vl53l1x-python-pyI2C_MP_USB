@@ -27,7 +27,6 @@ from i2c_mp_usb import *
 import os
 import site
 import glob
-import libusb1
 
 class VL53L1xError(RuntimeError):
     pass
