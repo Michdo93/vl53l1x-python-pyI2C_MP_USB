@@ -23,10 +23,11 @@
 # SOFTWARE.
 from ctypes import CDLL, CFUNCTYPE, POINTER, c_int, c_uint, pointer, c_ubyte, c_uint8, c_uint32, c_uint16
 from i2c_mp_usb import I2C_MP_USB as SMBus
+from i2c_mp_usb import *
 import os
 import site
 import glob
-
+import libusb1
 
 class VL53L1xError(RuntimeError):
     pass
@@ -92,12 +93,13 @@ class VL53L1X:
         self._i2c = SMBus()
         if tca9548a_num == 255:
             try:
-                self._i2c.open(bus=self._i2c_bus)
+                #self._i2c.open(bus=self._i2c_bus)
                 self._i2c.read_byte_data(self.i2c_address, 0x00)
             except IOError:
                 raise RuntimeError("VL53L1X not found on adddress: {:02x}".format(self.i2c_address))
             finally:
-                self._i2c.close()
+                #self._i2c.close()
+                print("closed")
 
         self._dev = None
         # Register Address
@@ -108,12 +110,12 @@ class VL53L1X:
         self.ADDR_I2C_SEC_ADDR = 0x8a  # Write new I2C address after unlock
 
     def open(self, reset=False):
-        self._i2c.open(bus=self._i2c_bus)
+        #self._i2c.open(bus=self._i2c_bus)
         self._configure_i2c_library_functions()
         self._dev = _TOF_LIBRARY.initialise(self.i2c_address, self._tca9548a_num, self._tca9548a_addr, reset)
 
     def close(self):
-        self._i2c.close()
+        #self._i2c.close()
         self._dev = None
 
     def _configure_i2c_library_functions(self):
