@@ -118,6 +118,14 @@ please make sure that the kernel module is not loaded and the python library can
 sudo rmmod i2c-tiny-usb
 ```
 
+You can also blacklist it permanently:
+
+Or blacklist it:
+
+```
+echo $'blacklist i2c-tiny-usb\n' > /etc/modprobe.d/i2c.conf
+```
+
 With `sudo i2cdetect -y 0` you should see the sensor:
 
 ```
@@ -130,4 +138,11 @@ With `sudo i2cdetect -y 0` you should see the sensor:
 50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 70: -- -- -- -- -- -- -- -- 
+```
+
+Add udev rule to give permissions to all users. 
+ 
+```
+sudo bash -c $'echo \'SUBSYSTEM=="usb", ATTRS{product}=="I2C-MP-USB", MODE="0666"\' > /etc/udev/rules.d/50-I2C_MP_USB.rules'
+sudo udevadm control --reload-rules
 ```
