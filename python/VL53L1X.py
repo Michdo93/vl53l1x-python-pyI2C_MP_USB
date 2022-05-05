@@ -97,8 +97,7 @@ class VL53L1X:
             except IOError:
                 raise RuntimeError("VL53L1X not found on adddress: {:02x}".format(self.i2c_address))
             finally:
-                #self._i2c.close()
-                print("closed")
+                self._i2c.close()
 
         self._dev = None
         # Register Address
@@ -114,20 +113,19 @@ class VL53L1X:
         self._dev = _TOF_LIBRARY.initialise(self.i2c_address, self._tca9548a_num, self._tca9548a_addr, reset)
 
     def close(self):
-        #self._i2c.close()
+        self._i2c.close()
         self._dev = None
 
     def _configure_i2c_library_functions(self):
         # I2C bus read callback for low level library.
         def _i2c_read(address, reg, data_p, length):
             ret_val = 0
-
-            self._i2c.usbhandle.controlWrite(libusb1.LIBUSB_TYPE_CLASS, CMD_I2C_IO + CMD_I2C_IO_BEGIN, 0, address, [reg >> 8, reg & 0xff])
-            data_p = self._i2c.usbhandle.controlRead(libusb1.LIBUSB_TYPE_CLASS, CMD_I2C_IO + CMD_I2C_IO_END, I2C_M_RD, address, length)
+            
+            readdata = self._i2c.write_read_i2c_block_raw(address, [reg >> 8, reg & 0xff], length):
 
             if ret_val == 0:
                 for index in range(length):
-                    data_p[index] = ord(msg_r.buf[index])
+                    data_p[index] = ord(readdata[index]
 
             return ret_val
 
